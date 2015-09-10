@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/light_yellow</item>
+        <item name="colorPrimaryDark">@color/dark_gray</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="Text.SlideTitle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40dp</item>
+    </style>
+
+    <style name="Text.SlideAuthor">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <color name="light_yellow">#ff9</color>
+    <color name="dark_gray">#282828</color>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PhysicsUI</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="physics">Physics</string>
+    <string name="ui">UI</string>
+    <string name="filipe">Filipe Abrantes</string>
+    <string name="will">Will Bailey</string>
+</resources>
