@@ -5,7 +5,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Space;
 import android.widget.TextView;
 
@@ -29,8 +28,8 @@ public class SlideTitle extends BaseSlide implements SpringListener {
     @Bind(R.id.author_right) TextView mAuthorRight;
     @Bind(R.id.title_space) Space mTitleSpace;
 
-    @NonNull private final Spring mTitleLeftTranslationXSpring;
-    @NonNull private final Spring mTitleRightTranslationXSpring;
+    @NonNull private final Spring mTitleLeftXSpring;
+    @NonNull private final Spring mTitleRightXSpring;
     @NonNull private final Spring mTitleRightScaleSpring;
     @NonNull private final Spring mTitleLeftAlphaSpring;
     @NonNull private final Spring mAuthorPopSpring;
@@ -39,15 +38,19 @@ public class SlideTitle extends BaseSlide implements SpringListener {
 
     public SlideTitle(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
+
+        /**
+         * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
+         */
         final SpringSystem springSystem = SpringSystem.create();
-        mTitleLeftTranslationXSpring = springSystem.createSpring();
-        mTitleRightTranslationXSpring = springSystem.createSpring();
+        mTitleLeftXSpring = springSystem.createSpring();
+        mTitleRightXSpring = springSystem.createSpring();
         mTitleRightScaleSpring = springSystem.createSpring();
         mTitleLeftAlphaSpring = springSystem.createSpring();
         mAuthorPopSpring = springSystem.createSpring();
 
-        mTitleLeftTranslationXSpring.addListener(this);
-        mTitleRightTranslationXSpring.addListener(this);
+        mTitleLeftXSpring.addListener(this);
+        mTitleRightXSpring.addListener(this);
         mTitleRightScaleSpring.addListener(this);
         mTitleLeftAlphaSpring.addListener(this);
         mAuthorPopSpring.addListener(this);
@@ -58,16 +61,14 @@ public class SlideTitle extends BaseSlide implements SpringListener {
     @Override
     protected void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView) {
         ButterKnife.bind(this, parentView);
+
+        // Set uninitialized state
+        mTitleLeftXSpring.setCurrentValue(Double.MIN_VALUE, true);
+        mTitleRightXSpring.setCurrentValue(Double.MIN_VALUE, true);
     }
 
     @Override
-    public boolean stepTo(int stepIdx, boolean animate) {
-        final boolean outOfBounds = stepIdx < 0 || stepIdx >= getStepCount();
-        if (stepIdx == getStepIdx() || outOfBounds) {
-            return !outOfBounds;
-        }
-
-        // TODO Does it make sense to move the animation logic to a SlideTitleAnimationController/Helper class?
+    public boolean onStepTo(int stepIdx, boolean animate) {
         switch (stepIdx) {
             case 0: {
                 mTitleLeft.setVisibility(View.GONE);
@@ -75,6 +76,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 mAuthorLeft.setVisibility(View.INVISIBLE);
                 mAuthorRight.setVisibility(View.INVISIBLE);
                 if (animate) {
+                    applyHidingPaddingHack(false);
                     mTitleRightScaleSpring.setCurrentValue(0);
                     mTitleRightScaleSpring.setEndValue(1);
                 }
@@ -84,29 +86,9 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 mTitleLeft.setVisibility(View.VISIBLE);
                 mTitleSpace.setVisibility(View.VISIBLE);
                 if (animate) {
-                    // XXX padding hack to make sure 'UI' covers 'Physics' while it translates in
-                    mTitleLeft.setPadding(mPaddingHackSize, 0, 0, 0);
-                    mTitleRight.setPadding(0, 0, mPaddingHackSize, 0);
-
-                    final float oldTitleRightX = mTitleRight.getX();
-                    mTitleLeft.getViewTreeObserver().addOnGlobalLayoutListener(
-                            new ViewTreeObserver.OnGlobalLayoutListener() {
-                                @Override
-                                public void onGlobalLayout() {
-                                    mTitleLeft.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                                    final float rightTranslationX = oldTitleRightX - mTitleRight.getX();
-                                    final float leftTranslationX = mTitleLeft.getWidth() + mTitleSpace.getWidth() +
-                                            rightTranslationX;
-
-                                    mTitleLeftTranslationXSpring.setCurrentValue(leftTranslationX - mPaddingHackSize);
-                                    mTitleLeftTranslationXSpring.setEndValue(0);
-                                    mTitleRightTranslationXSpring.setCurrentValue(rightTranslationX);
-                                    mTitleRightTranslationXSpring.setEndValue(0);
-                                    mTitleLeftAlphaSpring.setCurrentValue(0);
-                                    mTitleLeftAlphaSpring.setEndValue(1f);
-                                }
-                            });
+                    applyHidingPaddingHack(true);
+                    mTitleLeftAlphaSpring.setCurrentValue(0);
+                    mTitleLeftAlphaSpring.setEndValue(1f);
                 }
                 break;
             }
@@ -126,18 +108,54 @@ public class SlideTitle extends BaseSlide implements SpringListener {
         return true;
     }
 
+    private void applyHidingPaddingHack(boolean addPading) {
+        // XXX padding hack to make sure 'UI' covers 'Physics' while it translates in
+        mTitleLeft.setPadding(addPading ? mPaddingHackSize : 0, 0, 0, 0);
+        mTitleRight.setPadding(0, 0, addPading ? mPaddingHackSize : 0, 0);
+    }
+
     @Override
     public int getStepCount() {
         return 3;
     }
 
     @Override
+    public void onGlobalLayout() {
+        super.onGlobalLayout();
+
+        /**
+         * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
+         */
+
+        final float titleLeftX = mTitleLeft.getX();
+        final float titleRightX = mTitleRight.getX();
+
+        // Override initial positions, if needed.
+        if (mTitleLeftXSpring.getCurrentValue() == Double.MIN_VALUE && titleLeftX != 0) {
+            mTitleLeftXSpring.setCurrentValue(titleLeftX + mTitleLeft.getWidth() - mPaddingHackSize);
+        }
+        if (mTitleRightXSpring.getCurrentValue() == Double.MIN_VALUE && titleRightX != 0) {
+            mTitleRightXSpring.setCurrentValue(titleRightX);
+        }
+
+        // Dynamic tweening.
+        mTitleLeft.setX((float) mTitleLeftXSpring.getCurrentValue());
+        mTitleRight.setX((float) mTitleRightXSpring.getCurrentValue());
+        mTitleLeftXSpring.setEndValue(titleLeftX);
+        mTitleRightXSpring.setEndValue(titleRightX);
+    }
+
+    @Override
     public void onSpringUpdate(Spring spring) {
+        /**
+         * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
+         */
+
         final float value = (float) spring.getCurrentValue();
-        if (spring == mTitleLeftTranslationXSpring) {
-            mTitleLeft.setTranslationX(value);
-        } else if (spring == mTitleRightTranslationXSpring) {
-            mTitleRight.setTranslationX(value);
+        if (spring == mTitleLeftXSpring) {
+            mTitleLeft.setX(value);
+        } else if (spring == mTitleRightXSpring) {
+            mTitleRight.setX(value);
         } else if (spring == mTitleRightScaleSpring) {
             mTitleRight.setScaleX(value);
             mTitleRight.setScaleY(value);

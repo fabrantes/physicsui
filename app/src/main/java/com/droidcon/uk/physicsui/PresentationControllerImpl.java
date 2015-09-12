@@ -59,7 +59,7 @@ public class PresentationControllerImpl implements PresentationController, View.
 
     @NonNull
     private Slide moveToSlide(int slideIdx) {
-        int nextSlideIdx = Math.min(0, Math.max(mPresentation.slideCount() - 1, slideIdx));
+        int nextSlideIdx = Math.max(0, Math.min(mPresentation.slideCount() - 1, slideIdx));
         if (nextSlideIdx == mSlideIndex) {
             return mPresentation.getSlide(mSlideIndex);
         }

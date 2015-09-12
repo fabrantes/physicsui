@@ -55,9 +55,9 @@ public interface Slide {
 
     boolean nextStep();
 
-    boolean stepTo(int stepDelta);
+    boolean stepTo(int stepIdx);
 
-    boolean stepTo(int stepDelta, boolean animate);
+    boolean stepTo(int stepIdx, boolean animate);
 
     int getStepCount();
 

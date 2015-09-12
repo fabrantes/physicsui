@@ -23,6 +23,10 @@
         <item name="android:textSize">16dp</item>
     </style>
 
+    <style name="Text.SlideHeader2">
+        <item name="android:textSize">32dp</item>
+    </style>
+
     <color name="light_yellow">#ff9</color>
     <color name="dark_gray">#282828</color>
 </resources>
