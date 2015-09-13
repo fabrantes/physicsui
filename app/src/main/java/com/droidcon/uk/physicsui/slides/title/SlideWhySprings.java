@@ -57,21 +57,26 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
         ButterKnife.bind(this, parentView);
         mReason2TextView.setText(Html.fromHtml(getResources().getString(R.string.they_feel_nice)));
 
-        // Set uninitialized state
+        // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
+        // know the initial positions for the Views before they are laid out).
         mMajorYSpring.setCurrentValue(Double.MIN_VALUE, true);
         mReason1YSpring.setCurrentValue(Double.MIN_VALUE, true);
+        mMajorAlphaSpring.setCurrentValue(0);
+        mReason1AlphaSpring.setCurrentValue(0f);
+        mReason2AlphaSpring.setCurrentValue(0);
     }
 
     @Override
-    public boolean onStepTo(int stepIdx, boolean animate) {
+    public void onStepTo(int stepIdx, boolean animate) {
         switch (stepIdx) {
             case 0: {
                 mMajorTextView.setVisibility(View.VISIBLE);
                 mReason1TextView.setVisibility(View.GONE);
                 mReason2TextView.setVisibility(View.GONE);
                 if (animate) {
-                    mMajorAlphaSpring.setCurrentValue(0);
                     mMajorAlphaSpring.setEndValue(1);
+                    mReason1AlphaSpring.setEndValue(0);
+                    mReason2AlphaSpring.setEndValue(0);
                 }
                 break;
             }
@@ -80,8 +85,9 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 mReason1TextView.setVisibility(View.VISIBLE);
                 mReason2TextView.setVisibility(View.GONE);
                 if (animate) {
-                    mReason1AlphaSpring.setCurrentValue(0f);
-                    mReason1AlphaSpring.setEndValue(1f);
+                    mMajorAlphaSpring.setEndValue(1);
+                    mReason1AlphaSpring.setEndValue(1);
+                    mReason2AlphaSpring.setEndValue(0);
                 }
                 break;
             }
@@ -90,8 +96,9 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 mReason1TextView.setVisibility(View.VISIBLE);
                 mReason2TextView.setVisibility(View.VISIBLE);
                 if (animate) {
-                    mReason2AlphaSpring.setCurrentValue(0);
-                    mReason2AlphaSpring.setEndValue(1f);
+                    mMajorAlphaSpring.setEndValue(1);
+                    mReason1AlphaSpring.setEndValue(1);
+                    mReason2AlphaSpring.setEndValue(1);
                 }
                 break;
             }
@@ -99,7 +106,6 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 break;
             }
         }
-        return true;
     }
 
     @Override

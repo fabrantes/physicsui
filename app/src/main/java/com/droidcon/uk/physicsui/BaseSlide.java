@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
  */
 public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayoutListener {
 
+    public static final int UNKNOWN_SLIDE_IDX = -1;
     @LayoutRes private final int mLayoutId;
     @NonNull private final Context mContext;
     @Nullable private View mView;
@@ -69,19 +70,16 @@ public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayou
     @Override
     public boolean stepTo(int stepIdx, boolean animate) {
         final boolean outOfBounds = stepIdx < 0 || stepIdx >= getStepCount();
-        if (outOfBounds || stepIdx == getStepIdx()) {
-            return !outOfBounds;
-        } else {
-            final boolean didStep = onStepTo(stepIdx, animate);
-            if (didStep) {
-                setStepIdx(stepIdx);
-                return true;
-            }
+        if (outOfBounds) {
+            return false;
         }
-        return false;
+
+        onStepTo(stepIdx, animate);
+        setStepIdx(stepIdx);
+        return true;
     }
 
-    protected abstract boolean onStepTo(int stepIdx, boolean animate);
+    protected abstract void onStepTo(int stepIdx, boolean animate);
 
     @NonNull
     @Override
@@ -93,7 +91,7 @@ public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayou
             onSlideInflated(mView, mParentView);
         }
         mView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-        stepTo(0);
+        stepTo(mStepIdx == UNKNOWN_SLIDE_IDX ? 0 : mStepIdx);
         return mView;
     }
 

@@ -2,13 +2,13 @@ package com.droidcon.uk.physicsui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DroidconUkPresentation mPresentation;
     private PresentationControllerImpl mSlideController;
@@ -22,19 +22,23 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mRootView.setOnClickListener(this);
         mPresentation = new DroidconUkPresentation(this);
         mSlideController = new PresentationControllerImpl(mPresentation, mRootView);
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        mSlideController.nextSlide();
-        return super.onKeyUp(keyCode, event);
+    public void onBackPressed() {
+        // avoid leaving the activity
+        mSlideController.previousStep();
     }
 
+    @Override
+    public void onClick(View v) {
+        mSlideController.nextStep();
+    }
 
-
-    //    @Override
+//    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_main, menu);

@@ -1,14 +1,12 @@
 package com.droidcon.uk.physicsui;
 
 import android.support.annotation.NonNull;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
  * Created by fabrantes on 06/09/2015.
  */
-public class PresentationControllerImpl implements PresentationController, View.OnKeyListener, View.OnClickListener {
+public class PresentationControllerImpl implements PresentationController {
 
     private final Presentation mPresentation;
     private final ViewGroup mViewGroup;
@@ -19,8 +17,6 @@ public class PresentationControllerImpl implements PresentationController, View.
         mSlideIndex = -1;
 
         mViewGroup = viewGroup;
-        mViewGroup.setOnClickListener(this);
-        mViewGroup.setOnKeyListener(this);
     }
 
     @NonNull
@@ -72,16 +68,5 @@ public class PresentationControllerImpl implements PresentationController, View.
         }
         nextSlide.enter(mViewGroup);
         return nextSlide;
-    }
-
-    @Override
-    public void onClick(View v) {
-        nextStep();
-    }
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        nextStep();
-        return true;
     }
 }

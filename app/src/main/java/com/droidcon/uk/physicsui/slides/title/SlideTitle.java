@@ -62,42 +62,58 @@ public class SlideTitle extends BaseSlide implements SpringListener {
     protected void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView) {
         ButterKnife.bind(this, parentView);
 
-        // Set uninitialized state
+        // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
+        // know the initial positions for the Views before they are laid out).
         mTitleLeftXSpring.setCurrentValue(Double.MIN_VALUE, true);
         mTitleRightXSpring.setCurrentValue(Double.MIN_VALUE, true);
+        mTitleLeftAlphaSpring.setCurrentValue(0);
+        mTitleRightScaleSpring.setCurrentValue(0);
+        mAuthorPopSpring.setCurrentValue(0);
     }
 
     @Override
-    public boolean onStepTo(int stepIdx, boolean animate) {
+    public void onStepTo(int stepIdx, boolean animate) {
         switch (stepIdx) {
             case 0: {
+                mTitleRight.setVisibility(View.VISIBLE);
                 mTitleLeft.setVisibility(View.GONE);
                 mTitleSpace.setVisibility(View.GONE);
                 mAuthorLeft.setVisibility(View.INVISIBLE);
                 mAuthorRight.setVisibility(View.INVISIBLE);
                 if (animate) {
                     applyHidingPaddingHack(false);
-                    mTitleRightScaleSpring.setCurrentValue(0);
                     mTitleRightScaleSpring.setEndValue(1);
+                    mTitleLeftAlphaSpring.setEndValue(0);
+                    mAuthorPopSpring.setEndValue(0);
+                    // XXX reset this one
+                    mTitleLeftXSpring.setCurrentValue(Double.MIN_VALUE, true);
                 }
                 break;
             }
             case 1: {
+                mTitleRight.setVisibility(View.VISIBLE);
                 mTitleLeft.setVisibility(View.VISIBLE);
                 mTitleSpace.setVisibility(View.VISIBLE);
+                mAuthorLeft.setVisibility(View.INVISIBLE);
+                mAuthorRight.setVisibility(View.INVISIBLE);
                 if (animate) {
                     applyHidingPaddingHack(true);
-                    mTitleLeftAlphaSpring.setCurrentValue(0);
-                    mTitleLeftAlphaSpring.setEndValue(1f);
+                    mTitleLeftAlphaSpring.setEndValue(1);
+                    mTitleRightScaleSpring.setEndValue(1);
+                    mAuthorPopSpring.setEndValue(0);
                 }
                 break;
             }
             case 2: {
+                mTitleRight.setVisibility(View.VISIBLE);
+                mTitleLeft.setVisibility(View.VISIBLE);
+                mTitleSpace.setVisibility(View.VISIBLE);
                 mAuthorLeft.setVisibility(View.VISIBLE);
                 mAuthorRight.setVisibility(View.VISIBLE);
                 if (animate) {
-                    mAuthorPopSpring.setCurrentValue(0);
-                    mAuthorPopSpring.setEndValue(1f);
+                    mTitleRightScaleSpring.setEndValue(1);
+                    mTitleLeftAlphaSpring.setEndValue(1);
+                    mAuthorPopSpring.setEndValue(1);
                 }
                 break;
             }
@@ -105,7 +121,6 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 break;
             }
         }
-        return true;
     }
 
     private void applyHidingPaddingHack(boolean addPading) {
