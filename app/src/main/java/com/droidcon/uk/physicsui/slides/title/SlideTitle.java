@@ -31,10 +31,8 @@ public class SlideTitle extends BaseSlide implements SpringListener {
     @NonNull private final Spring mTitleLeftXSpring;
     @NonNull private final Spring mTitleRightXSpring;
     @NonNull private final Spring mTitleRightScaleSpring;
-    @NonNull private final Spring mTitleLeftAlphaSpring;
+    @NonNull private final Spring mTitleLeftPopSpring;
     @NonNull private final Spring mAuthorPopSpring;
-
-    private final int mPaddingHackSize;
 
     public SlideTitle(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
@@ -46,16 +44,14 @@ public class SlideTitle extends BaseSlide implements SpringListener {
         mTitleLeftXSpring = springSystem.createSpring();
         mTitleRightXSpring = springSystem.createSpring();
         mTitleRightScaleSpring = springSystem.createSpring();
-        mTitleLeftAlphaSpring = springSystem.createSpring();
+        mTitleLeftPopSpring = springSystem.createSpring();
         mAuthorPopSpring = springSystem.createSpring();
 
         mTitleLeftXSpring.addListener(this);
         mTitleRightXSpring.addListener(this);
         mTitleRightScaleSpring.addListener(this);
-        mTitleLeftAlphaSpring.addListener(this);
+        mTitleLeftPopSpring.addListener(this);
         mAuthorPopSpring.addListener(this);
-
-        mPaddingHackSize = context.getResources().getDimensionPixelSize(R.dimen.title_slide_padding_hack_size);
     }
 
     @Override
@@ -66,7 +62,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
         // know the initial positions for the Views before they are laid out).
         mTitleLeftXSpring.setCurrentValue(Double.MIN_VALUE, true);
         mTitleRightXSpring.setCurrentValue(Double.MIN_VALUE, true);
-        mTitleLeftAlphaSpring.setCurrentValue(0);
+        mTitleLeftPopSpring.setCurrentValue(0);
         mTitleRightScaleSpring.setCurrentValue(0);
         mAuthorPopSpring.setCurrentValue(0);
     }
@@ -81,12 +77,9 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 mAuthorLeft.setVisibility(View.INVISIBLE);
                 mAuthorRight.setVisibility(View.INVISIBLE);
                 if (animate) {
-                    applyHidingPaddingHack(false);
                     mTitleRightScaleSpring.setEndValue(1);
-                    mTitleLeftAlphaSpring.setEndValue(0);
+                    mTitleLeftPopSpring.setEndValue(0);
                     mAuthorPopSpring.setEndValue(0);
-                    // XXX reset this one
-                    mTitleLeftXSpring.setCurrentValue(Double.MIN_VALUE, true);
                 }
                 break;
             }
@@ -97,8 +90,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 mAuthorLeft.setVisibility(View.INVISIBLE);
                 mAuthorRight.setVisibility(View.INVISIBLE);
                 if (animate) {
-                    applyHidingPaddingHack(true);
-                    mTitleLeftAlphaSpring.setEndValue(1);
+                    mTitleLeftPopSpring.setEndValue(1);
                     mTitleRightScaleSpring.setEndValue(1);
                     mAuthorPopSpring.setEndValue(0);
                 }
@@ -112,7 +104,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 mAuthorRight.setVisibility(View.VISIBLE);
                 if (animate) {
                     mTitleRightScaleSpring.setEndValue(1);
-                    mTitleLeftAlphaSpring.setEndValue(1);
+                    mTitleLeftPopSpring.setEndValue(1);
                     mAuthorPopSpring.setEndValue(1);
                 }
                 break;
@@ -121,12 +113,6 @@ public class SlideTitle extends BaseSlide implements SpringListener {
                 break;
             }
         }
-    }
-
-    private void applyHidingPaddingHack(boolean addPading) {
-        // XXX padding hack to make sure 'UI' covers 'Physics' while it translates in
-        mTitleLeft.setPadding(addPading ? mPaddingHackSize : 0, 0, 0, 0);
-        mTitleRight.setPadding(0, 0, addPading ? mPaddingHackSize : 0, 0);
     }
 
     @Override
@@ -147,7 +133,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
 
         // Override initial positions, if needed.
         if (mTitleLeftXSpring.getCurrentValue() == Double.MIN_VALUE && titleLeftX != 0) {
-            mTitleLeftXSpring.setCurrentValue(titleLeftX + mTitleLeft.getWidth() - mPaddingHackSize);
+            mTitleLeftXSpring.setCurrentValue(titleLeftX);
         }
         if (mTitleRightXSpring.getCurrentValue() == Double.MIN_VALUE && titleRightX != 0) {
             mTitleRightXSpring.setCurrentValue(titleRightX);
@@ -156,6 +142,7 @@ public class SlideTitle extends BaseSlide implements SpringListener {
         // Dynamic tweening.
         mTitleLeft.setX((float) mTitleLeftXSpring.getCurrentValue());
         mTitleRight.setX((float) mTitleRightXSpring.getCurrentValue());
+
         mTitleLeftXSpring.setEndValue(titleLeftX);
         mTitleRightXSpring.setEndValue(titleRightX);
     }
@@ -172,10 +159,13 @@ public class SlideTitle extends BaseSlide implements SpringListener {
         } else if (spring == mTitleRightXSpring) {
             mTitleRight.setX(value);
         } else if (spring == mTitleRightScaleSpring) {
+            mTitleRight.setAlpha(value);
             mTitleRight.setScaleX(value);
             mTitleRight.setScaleY(value);
-        } else if (spring == mTitleLeftAlphaSpring) {
+        } else if (spring == mTitleLeftPopSpring) {
             mTitleLeft.setAlpha(value);
+            mTitleLeft.setScaleX(value);
+            mTitleLeft.setScaleY(value);
         } else if (spring == mAuthorPopSpring) {
             mAuthorLeft.setAlpha(value);
             mAuthorLeft.setScaleX(value);
@@ -185,13 +175,4 @@ public class SlideTitle extends BaseSlide implements SpringListener {
             mAuthorRight.setScaleY(value);
         }
     }
-
-    @Override
-    public void onSpringAtRest(Spring spring) { }
-
-    @Override
-    public void onSpringActivate(Spring spring) { }
-
-    @Override
-    public void onSpringEndStateChange(Spring spring) { }
 }

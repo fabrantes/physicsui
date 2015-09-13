@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.droidcon.uk.physicsui.slides.title.SlideCrossFadeExample;
+import com.droidcon.uk.physicsui.slides.title.SlideTheory;
+import com.droidcon.uk.physicsui.slides.title.SlideTheory2;
 import com.droidcon.uk.physicsui.slides.title.SlideTitle;
 import com.droidcon.uk.physicsui.slides.title.SlideWhySprings;
 
@@ -21,6 +23,8 @@ public class DroidconUkPresentation implements Presentation {
         mSlides = new ArrayList<>();
         mSlides.add(new SlideTitle(context, R.layout.slide_title));
         mSlides.add(new SlideWhySprings(context, R.layout.slide_why_springs));
+        mSlides.add(new SlideTheory(context, R.layout.slide_theory));
+        mSlides.add(new SlideTheory2(context, R.layout.slide_theory2));
         mSlides.add(new SlideCrossFadeExample(context, R.layout.slide_cross_fade_ex));
     }
 

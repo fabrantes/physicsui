@@ -3,7 +3,6 @@ package com.droidcon.uk.physicsui.slides.title;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -26,11 +25,11 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
     @Bind(R.id.reason1) TextView mReason1TextView;
     @Bind(R.id.reason2) TextView mReason2TextView;
 
-    @NonNull private final Spring mMajorAlphaSpring;
+    @NonNull private final Spring mMajorPopSpring;
     @NonNull private final Spring mMajorYSpring;
-    @NonNull private final Spring mReason1AlphaSpring;
+    @NonNull private final Spring mReason1PopSpring;
     @NonNull private final Spring mReason1YSpring;
-    @NonNull private final Spring mReason2AlphaSpring;
+    @NonNull private final Spring mReason2PopSpring;
 
     public SlideWhySprings(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
@@ -39,15 +38,15 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
          * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
          */
         final SpringSystem springSystem = SpringSystem.create();
-        mMajorAlphaSpring = springSystem.createSpring();
-        mReason1AlphaSpring = springSystem.createSpring();
-        mReason2AlphaSpring = springSystem.createSpring();
+        mMajorPopSpring = springSystem.createSpring();
+        mReason1PopSpring = springSystem.createSpring();
+        mReason2PopSpring = springSystem.createSpring();
         mMajorYSpring = springSystem.createSpring();
         mReason1YSpring = springSystem.createSpring();
 
-        mMajorAlphaSpring.addListener(this);
-        mReason1AlphaSpring.addListener(this);
-        mReason2AlphaSpring.addListener(this);
+        mMajorPopSpring.addListener(this);
+        mReason1PopSpring.addListener(this);
+        mReason2PopSpring.addListener(this);
         mMajorYSpring.addListener(this);
         mReason1YSpring.addListener(this);
     }
@@ -55,15 +54,14 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
     @Override
     protected void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView) {
         ButterKnife.bind(this, parentView);
-        mReason2TextView.setText(Html.fromHtml(getResources().getString(R.string.they_feel_nice)));
 
         // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
         // know the initial positions for the Views before they are laid out).
         mMajorYSpring.setCurrentValue(Double.MIN_VALUE, true);
         mReason1YSpring.setCurrentValue(Double.MIN_VALUE, true);
-        mMajorAlphaSpring.setCurrentValue(0);
-        mReason1AlphaSpring.setCurrentValue(0f);
-        mReason2AlphaSpring.setCurrentValue(0);
+        mMajorPopSpring.setCurrentValue(0);
+        mReason1PopSpring.setCurrentValue(0f);
+        mReason2PopSpring.setCurrentValue(0);
     }
 
     @Override
@@ -74,9 +72,9 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 mReason1TextView.setVisibility(View.GONE);
                 mReason2TextView.setVisibility(View.GONE);
                 if (animate) {
-                    mMajorAlphaSpring.setEndValue(1);
-                    mReason1AlphaSpring.setEndValue(0);
-                    mReason2AlphaSpring.setEndValue(0);
+                    mMajorPopSpring.setEndValue(1);
+                    mReason1PopSpring.setEndValue(0);
+                    mReason2PopSpring.setEndValue(0);
                 }
                 break;
             }
@@ -85,9 +83,9 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 mReason1TextView.setVisibility(View.VISIBLE);
                 mReason2TextView.setVisibility(View.GONE);
                 if (animate) {
-                    mMajorAlphaSpring.setEndValue(1);
-                    mReason1AlphaSpring.setEndValue(1);
-                    mReason2AlphaSpring.setEndValue(0);
+                    mMajorPopSpring.setEndValue(1);
+                    mReason1PopSpring.setEndValue(1);
+                    mReason2PopSpring.setEndValue(0);
                 }
                 break;
             }
@@ -96,9 +94,9 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
                 mReason1TextView.setVisibility(View.VISIBLE);
                 mReason2TextView.setVisibility(View.VISIBLE);
                 if (animate) {
-                    mMajorAlphaSpring.setEndValue(1);
-                    mReason1AlphaSpring.setEndValue(1);
-                    mReason2AlphaSpring.setEndValue(1);
+                    mMajorPopSpring.setEndValue(1);
+                    mReason1PopSpring.setEndValue(1);
+                    mReason2PopSpring.setEndValue(1);
                 }
                 break;
             }
@@ -146,26 +144,22 @@ public class SlideWhySprings extends BaseSlide implements SpringListener {
          */
 
         final float value = (float) spring.getCurrentValue();
-        if (spring == mMajorAlphaSpring) {
+        if (spring == mMajorPopSpring) {
             mMajorTextView.setAlpha(value);
-        } else if (spring == mReason1AlphaSpring) {
+            mMajorTextView.setScaleX(value);
+            mMajorTextView.setScaleY(value);
+        } else if (spring == mReason1PopSpring) {
             mReason1TextView.setAlpha(value);
-        } else if (spring == mReason2AlphaSpring) {
+            mReason1TextView.setScaleX(value);
+            mReason1TextView.setScaleY(value);
+        } else if (spring == mReason2PopSpring) {
             mReason2TextView.setAlpha(value);
+            mReason2TextView.setScaleX(value);
+            mReason2TextView.setScaleY(value);
         } else if (spring == mMajorYSpring) {
             mMajorTextView.setY(value);
         } else if (spring == mReason1YSpring) {
             mReason1TextView.setY(value);
         }
     }
-
-    @Override
-    public void onSpringAtRest(Spring spring) { }
-
-    @Override
-    public void onSpringActivate(Spring spring) { }
-
-    @Override
-    public void onSpringEndStateChange(Spring spring) { }
-
 }

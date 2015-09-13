@@ -30,11 +30,20 @@
     <style name="Text.Code">
         <item name="android:fontFamily">monospace</item>
         <item name="android:padding">@dimen/activity_vertical_margin</item>
-        <item name="android:background">#efefef</item>
+        <item name="android:background">#1000</item>
     </style>
 
     <style name="Text.Code.Small">
         <item name="android:textSize">9dp</item>
+    </style>
+
+    <style name="Text.SlideQuote">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">32dp</item>
+    </style>
+
+    <style name="Text.SlideQuote.Small">
+        <item name="android:textSize">24dp</item>
     </style>
 
     <color name="light_yellow">#ff9</color>

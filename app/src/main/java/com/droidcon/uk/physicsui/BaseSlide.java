@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringListener;
+
 /**
  * Created by fabrantes on 06/09/2015.
  */
-public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayoutListener {
+public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayoutListener, SpringListener {
 
     public static final int UNKNOWN_SLIDE_IDX = -1;
     @LayoutRes private final int mLayoutId;
@@ -21,6 +24,10 @@ public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayou
     @Nullable private View mView;
     @Nullable private ViewGroup mParentView;
     private int mStepIdx = -1;
+
+    protected abstract void onStepTo(int stepIdx, boolean animate);
+
+    protected abstract void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView);
 
     public BaseSlide(@NonNull Context context, @LayoutRes int layoutId) {
         mContext = context;
@@ -79,8 +86,6 @@ public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayou
         return true;
     }
 
-    protected abstract void onStepTo(int stepIdx, boolean animate);
-
     @NonNull
     @Override
     public View enter(@NonNull ViewGroup viewGroup) {
@@ -109,5 +114,15 @@ public abstract class BaseSlide implements Slide, ViewTreeObserver.OnGlobalLayou
     @Override
     public void onGlobalLayout() { }
 
-    protected abstract void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView);
+    @Override
+    public void onSpringUpdate(Spring spring) { }
+
+    @Override
+    public void onSpringAtRest(Spring spring) { }
+
+    @Override
+    public void onSpringActivate(Spring spring) { }
+
+    @Override
+    public void onSpringEndStateChange(Spring spring) { }
 }
