@@ -27,6 +27,16 @@
         <item name="android:textSize">32dp</item>
     </style>
 
+    <style name="Text.Code">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:padding">@dimen/activity_vertical_margin</item>
+        <item name="android:background">#efefef</item>
+    </style>
+
+    <style name="Text.Code.Small">
+        <item name="android:textSize">9dp</item>
+    </style>
+
     <color name="light_yellow">#ff9</color>
     <color name="dark_gray">#282828</color>
 </resources>
