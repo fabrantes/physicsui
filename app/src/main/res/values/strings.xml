@@ -13,4 +13,7 @@
     <string name="theory">Theory</string>
     <string name="quote_hookes_law">\"<b>Hooke\'s Law</b>: the force F needed to extend or compress a spring by some distance X is proportional to that distance.\"</string>
     <string name="quote_damping">\"<b>Damping</b> is an influence within or upon an oscillatory system that has the effect of reducing, restricting or preventing its oscillations. In physical systems, damping is produced by processes that dissipate the energy stored in the oscillation.\"</string>
+    <string name="demo">Demo</string>
+    <string name="stiffness_k">Stiffness \n (Tension) \n (k)</string>
+    <string name="damping_c">Damping \n (Friction) \n (c)</string>
 </resources>

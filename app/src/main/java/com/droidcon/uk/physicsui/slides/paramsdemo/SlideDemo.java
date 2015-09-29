@@ -1,4 +1,4 @@
-package com.droidcon.uk.physicsui.slides.title;
+package com.droidcon.uk.physicsui.slides.paramsdemo;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -19,22 +19,22 @@ import butterknife.ButterKnife;
 /**
  * Created by fabrantes on 08/09/2015.
  */
-public class SlideTheory extends BaseSlide implements SpringListener {
+public class SlideDemo extends BaseSlide implements SpringListener {
 
-    @Bind(R.id.theory) TextView mTheoryTextView;
+    @Bind(R.id.demo) TextView mDemoTextView;
 
-    @NonNull private final Spring mTheorySpring;
+    @NonNull private final Spring mDemoSpring;
 
-    public SlideTheory(@NonNull Context context, @LayoutRes int layoutId) {
+    public SlideDemo(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
 
         /**
          * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
          */
         final SpringSystem springSystem = SpringSystem.create();
-        mTheorySpring = springSystem.createSpring();
+        mDemoSpring = springSystem.createSpring();
 
-        mTheorySpring.addListener(this);
+        mDemoSpring.addListener(this);
     }
 
     @Override
@@ -43,16 +43,16 @@ public class SlideTheory extends BaseSlide implements SpringListener {
 
         // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
         // know the initial positions for the Views before they are laid out).
-        mTheorySpring.setCurrentValue(0f);
+        mDemoSpring.setCurrentValue(0f);
     }
 
     @Override
     public void onStepTo(int stepIdx, boolean animate) {
         switch (stepIdx) {
             case 0: {
-                mTheoryTextView.setVisibility(View.VISIBLE);
+                mDemoTextView.setVisibility(View.VISIBLE);
                 if (animate) {
-                    mTheorySpring.setEndValue(1);
+                    mDemoSpring.setEndValue(1);
                 }
                 break;
             }
@@ -79,10 +79,10 @@ public class SlideTheory extends BaseSlide implements SpringListener {
          */
 
         final float value = (float) spring.getCurrentValue();
-        if (spring == mTheorySpring) {
-            mTheoryTextView.setAlpha(value);
-            mTheoryTextView.setScaleX(value);
-            mTheoryTextView.setScaleY(value);
+        if (spring == mDemoSpring) {
+            mDemoTextView.setAlpha(value);
+            mDemoTextView.setScaleX(value);
+            mDemoTextView.setScaleY(value);
         }
     }
 }

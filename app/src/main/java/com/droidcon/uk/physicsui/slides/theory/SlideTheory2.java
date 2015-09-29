@@ -1,4 +1,4 @@
-package com.droidcon.uk.physicsui.slides.title;
+package com.droidcon.uk.physicsui.slides.theory;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
