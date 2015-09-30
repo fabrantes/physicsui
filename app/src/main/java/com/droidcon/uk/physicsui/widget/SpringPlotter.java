@@ -24,7 +24,7 @@ public class SpringPlotter extends View implements SpringListener {
     private static final float STROKE_WIDTH_FRACTION = .002f;
     private static final float PLOT_STROKE_WITH_MULTIPLIER = 4;
     private static final float GRAPH_TIME_MILLIS = 1000;
-    private static final float GRAPH_OVERSHOOT_MARGIN = .4f;
+    private static final float GRAPH_OVERSHOOT_MARGIN = 1f;
     private int mPrimaryColorDark;
     private float mStrokeWidth;
     private long mSpringStartTime;

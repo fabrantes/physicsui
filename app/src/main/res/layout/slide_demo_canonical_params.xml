@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,22 +15,40 @@
 
     <FrameLayout
         android:id="@+id/ball_container"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:clipChildren="false"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/ball"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:background="?attr/colorPrimaryDark"/>
+            android:id="@+id/ball_top"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top"
+            android:background="@drawable/blue_ball"/>
+
+        <View
+            android:id="@+id/ball_center"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_ball"/>
+
+        <View
+            android:id="@+id/ball_bottom"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/blue_ball"/>
 
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/slider_container"
         android:orientation="horizontal"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="32dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 

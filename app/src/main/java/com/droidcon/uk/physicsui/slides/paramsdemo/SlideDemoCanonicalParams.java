@@ -28,16 +28,19 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
     private static final float DEFAULT_DAMPING = 22f;
     @Bind(R.id.spring_plotter) SpringPlotter mSpringPlotter;
     @Bind(R.id.ball_container) View mBallContainer;
+    @Bind(R.id.ball_top) View mBallTop;
+    @Bind(R.id.ball_center) View mBallCenter;
+    @Bind(R.id.ball_bottom) View mBallBottom;
     @Bind(R.id.slider_container) View mSliderContainer;
     @Bind(R.id.slider_1) SeekBar mStiffnessSlider;
     @Bind(R.id.slider_2) SeekBar mDampingSlider;
     @Bind(R.id.value_1) TextView mStiffnessValueTextView;
     @Bind(R.id.value_2) TextView mDampingValueTextView;
 
+    @NonNull private final SpringSystem mSpringSystem;
     @NonNull private final Spring mSpringGraphPop;
     @NonNull private final Spring mSpringBallContainerPop;
     @NonNull private final Spring mSpringSliderContainerPop;
-    @NonNull private final SpringSystem mSpringSystem;
     @NonNull private Spring mSpring;
 
     public SlideDemoCanonicalParams(@NonNull Context context, @LayoutRes int layoutId) {
@@ -56,7 +59,6 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
         mSpringSliderContainerPop.addListener(this);
 
         mSpring = mSpringSystem.createSpring();
-        // TODO REMOVE
         mSpring.addListener(this);
     }
 
@@ -148,6 +150,13 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
             mSliderContainer.setAlpha(value);
             mSliderContainer.setScaleX(value);
             mSliderContainer.setScaleY(value);
+        } else if (spring == mSpring) {
+            mBallTop.setScaleX(value);
+            mBallTop.setScaleY(value);
+            mBallCenter.setScaleX(value);
+            mBallCenter.setScaleY(value);
+            mBallBottom.setScaleX(value);
+            mBallBottom.setScaleY(value);
         }
     }
 
@@ -158,6 +167,7 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
         spring.setRestSpeedThreshold(.000001);
         mSpringPlotter.setSpring(spring);
         mSpring = spring;
+        mSpring.addListener(this);
     }
 
     private int stiffnessValueToProgress(float stiffness) {
