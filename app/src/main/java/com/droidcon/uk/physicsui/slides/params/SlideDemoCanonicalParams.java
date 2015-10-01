@@ -1,4 +1,4 @@
-package com.droidcon.uk.physicsui.slides.paramsdemo;
+package com.droidcon.uk.physicsui.slides.params;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -65,6 +65,13 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
     @Override
     protected void onSlideInflated(@NonNull View view, @NonNull ViewGroup parentView) {
         ButterKnife.bind(this, parentView);
+
+        mSpringPlotter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redrawPlot();
+            }
+        });
 
         initSliders();
 
@@ -204,6 +211,10 @@ public class SlideDemoCanonicalParams extends BaseSlide implements SpringListene
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+        redrawPlot();
+    }
+
+    private void redrawPlot() {
         final float stiffness = stiffnessProgressToValue(mStiffnessSlider.getProgress());
         final float damping = dampingProgressToValue(mDampingSlider.getProgress());
 

@@ -16,4 +16,6 @@
     <string name="demo">Demo</string>
     <string name="stiffness_k">Stiffness \n (Tension) \n (k)</string>
     <string name="damping_c">Damping \n (Friction) \n (c)</string>
+    <string name="bounciness">Bounciness</string>
+    <string name="speed">Speed</string>
 </resources>

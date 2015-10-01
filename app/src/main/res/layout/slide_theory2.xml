@@ -33,36 +33,11 @@
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/equation_holder"
-        android:gravity="center"
-        android:orientation="horizontal"
+    <include
+        layout="@layout/msd_differential_eq"
         android:layout_marginTop="24dp"
         android:layout_width="wrap_content"
-        android:layout_height="64dp">
-
-        <ImageView
-            android:id="@+id/left_part_of_equation"
-            android:src="@drawable/left_eq"
-            android:tint="?attr/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/right_part_first_member"
-            android:src="@drawable/right_first_member_eq"
-            android:tint="?attr/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/right_part_second_member"
-            android:src="@drawable/right_second_member_eq"
-            android:tint="?attr/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+        android:layout_height="64dp"/>
 
     <ImageView
         android:id="@+id/spring_mass_damp_system_img"

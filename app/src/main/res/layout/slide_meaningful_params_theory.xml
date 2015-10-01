@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/msd_differential_eq"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"/>
+
+    <ImageView
+        android:id="@+id/diff_eq_solution"
+        android:src="@drawable/diff_eq_solution"
+        android:tint="?attr/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <LinearLayout
+        android:id="@+id/conclusions_container"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/wd"
+            android:src="@drawable/wd"
+            android:tint="?attr/colorPrimaryDark"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="32dp"/>
+
+        <ImageView
+            android:id="@+id/zeta_w0"
+            android:src="@drawable/zeta_w0"
+            android:tint="?attr/colorPrimaryDark"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="32dp"/>
+
+        <ImageView
+            android:id="@+id/w0"
+            android:src="@drawable/w0"
+            android:tint="?attr/colorPrimaryDark"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="32dp"/>
+
+        <ImageView
+            android:id="@+id/zeta"
+            android:src="@drawable/zeta"
+            android:tint="?attr/colorPrimaryDark"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="32dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.droidcon.uk.physicsui.slides.paramsdemo;
+package com.droidcon.uk.physicsui.slides.params;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

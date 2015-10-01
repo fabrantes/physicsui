@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="64dp"
+    android:id="@+id/equation_holder"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:showIn="@layout/slide_theory2">
+
+    <ImageView
+        android:id="@+id/left_part_of_equation"
+        android:src="@drawable/left_eq"
+        android:tint="?attr/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/right_part_first_member"
+        android:src="@drawable/right_first_member_eq"
+        android:tint="?attr/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/right_part_second_member"
+        android:src="@drawable/right_second_member_eq"
+        android:tint="?attr/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
