@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.droidcon.uk.physicsui.slides.SlideCrossFadeExample;
 import com.droidcon.uk.physicsui.slides.params.SlideDemo;
 import com.droidcon.uk.physicsui.slides.params.SlideDemoCanonicalParams;
+import com.droidcon.uk.physicsui.slides.params.SlideDemoMeaningfulParams;
 import com.droidcon.uk.physicsui.slides.params.SlideMeaningfulParams;
 import com.droidcon.uk.physicsui.slides.params.SlideMeaningfulParamsTheory;
 import com.droidcon.uk.physicsui.slides.theory.SlideTheory;
@@ -30,9 +31,10 @@ public class DroidconUkPresentation implements Presentation {
         mSlides.add(new SlideTheory(context, R.layout.slide_theory));
         mSlides.add(new SlideTheory2(context, R.layout.slide_theory2));
         mSlides.add(new SlideDemo(context, R.layout.slide_demo));
-        mSlides.add(new SlideDemoCanonicalParams(context, R.layout.slide_demo_canonical_params));
+        mSlides.add(new SlideDemoCanonicalParams(context, R.layout.slide_demo_params));
         mSlides.add(new SlideMeaningfulParams(context, R.layout.slide_meaningful_params));
         mSlides.add(new SlideMeaningfulParamsTheory(context, R.layout.slide_meaningful_params_theory));
+        mSlides.add(new SlideDemoMeaningfulParams(context, R.layout.slide_demo_params));
         mSlides.add(new SlideCrossFadeExample(context, R.layout.slide_cross_fade_ex));
     }
 
