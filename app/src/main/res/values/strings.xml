@@ -19,4 +19,7 @@
     <string name="damping_c">Damping\n(Friction)\n(c)</string>
     <string name="bounciness_zeta">Bounciness\n(1 - ζ)</string>
     <string name="speed_freq">Speed\n(ω)</string>
+    <string name="impl">Implementation</string>
+    <string name="interpolator">Interpolator</string>
+    <string name="looper">Looper</string>
 </resources>
