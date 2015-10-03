@@ -26,6 +26,6 @@
         android:gravity="center_horizontal"
         android:textStyle="bold|italic"
         style="@style/Text.SlideHeader2"
-        android:text="@string/looper"/>
+        android:text="@string/continuous"/>
 
 </LinearLayout>
