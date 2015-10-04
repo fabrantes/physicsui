@@ -21,5 +21,6 @@
     <string name="speed_freq">Speed\n(ω)</string>
     <string name="impl">Implementation</string>
     <string name="interpolator">Interpolator</string>
-    <string name="continuous">Continuous</string>
+    <string name="simulator">Simulator</string>
+    <string name="android_integration">(Unsure about this whole topic) \n \n How to integrate with Android? \n LayoutParams \n View helpers/extensions \n Custom layouts</string>
 </resources>

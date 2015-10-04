@@ -1,4 +1,4 @@
-package com.droidcon.uk.physicsui.slides.params;
+package com.droidcon.uk.physicsui.slides.impl;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -19,22 +19,22 @@ import butterknife.ButterKnife;
 /**
  * Created by fabrantes on 08/09/2015.
  */
-public class SlideDemo extends BaseSlide implements SpringListener {
+public class SlideIntegration extends BaseSlide implements SpringListener {
 
-    @Bind(R.id.integration) TextView mDemoTextView;
+    @Bind(R.id.integration) TextView mIntegrationTextView;
 
-    @NonNull private final Spring mDemoSpring;
+    @NonNull private final Spring mIntegrationPopSpring;
 
-    public SlideDemo(@NonNull Context context, @LayoutRes int layoutId) {
+    public SlideIntegration(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
 
         /**
          * ALL OF THE CODE HERE WOULD BE POSSIBLE TO GENERATE WITH AN ANNOTATION PROCESSOR
          */
         final SpringSystem springSystem = SpringSystem.create();
-        mDemoSpring = springSystem.createSpring();
+        mIntegrationPopSpring = springSystem.createSpring();
 
-        mDemoSpring.addListener(this);
+        mIntegrationPopSpring.addListener(this);
     }
 
     @Override
@@ -43,16 +43,16 @@ public class SlideDemo extends BaseSlide implements SpringListener {
 
         // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
         // know the initial positions for the Views before they are laid out).
-        mDemoSpring.setCurrentValue(0f);
+        mIntegrationPopSpring.setCurrentValue(0f);
     }
 
     @Override
     public void onStepTo(int stepIdx, boolean animate) {
         switch (stepIdx) {
             case 0: {
-                mDemoTextView.setVisibility(View.VISIBLE);
+                mIntegrationTextView.setVisibility(View.VISIBLE);
                 if (animate) {
-                    mDemoSpring.setEndValue(1);
+                    mIntegrationPopSpring.setEndValue(1);
                 }
                 break;
             }
@@ -79,10 +79,10 @@ public class SlideDemo extends BaseSlide implements SpringListener {
          */
 
         final float value = (float) spring.getCurrentValue();
-        if (spring == mDemoSpring) {
-            mDemoTextView.setAlpha(value);
-            mDemoTextView.setScaleX(value);
-            mDemoTextView.setScaleY(value);
+        if (spring == mIntegrationPopSpring) {
+            mIntegrationTextView.setAlpha(value);
+            mIntegrationTextView.setScaleX(value);
+            mIntegrationTextView.setScaleY(value);
         }
     }
 }

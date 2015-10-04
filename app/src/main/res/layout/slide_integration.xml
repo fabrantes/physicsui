@@ -6,10 +6,11 @@
 
     <TextView
         android:id="@+id/integration"
-        style="@style/Text.SlideTitle"
+        style="@style/Text.SlideHeader2"
         android:layout_gravity="center"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/demo"/>
+        android:text="@string/android_integration"/>
 
 </FrameLayout>

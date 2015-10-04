@@ -23,45 +23,24 @@
 
     <LinearLayout
         android:id="@+id/conclusions_container"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="48dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/wd"
-            android:src="@drawable/wd"
             android:tint="?attr/colorPrimaryDark"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="32dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/param_bounce_eq"/>
 
         <ImageView
-            android:id="@+id/zeta_w0"
-            android:src="@drawable/zeta_w0"
             android:tint="?attr/colorPrimaryDark"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="32dp"/>
-
-        <ImageView
-            android:id="@+id/w0"
-            android:src="@drawable/w0"
-            android:tint="?attr/colorPrimaryDark"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="32dp"/>
-
-        <ImageView
-            android:id="@+id/zeta"
-            android:src="@drawable/zeta"
-            android:tint="?attr/colorPrimaryDark"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="32dp"/>
+            android:layout_width="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_height="40dp"
+            android:src="@drawable/param_speed_eq"/>
 
     </LinearLayout>
 

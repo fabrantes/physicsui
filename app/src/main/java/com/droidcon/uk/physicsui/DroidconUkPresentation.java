@@ -3,9 +3,10 @@ package com.droidcon.uk.physicsui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.droidcon.uk.physicsui.slides.SlideCrossFadeExample;
 import com.droidcon.uk.physicsui.slides.impl.SlideImplementation;
 import com.droidcon.uk.physicsui.slides.impl.SlideImplementationOptions;
+import com.droidcon.uk.physicsui.slides.impl.SlideIntegration;
+import com.droidcon.uk.physicsui.slides.impl.SlideInteractiveDrag;
 import com.droidcon.uk.physicsui.slides.params.SlideDemo;
 import com.droidcon.uk.physicsui.slides.params.SlideDemoCanonicalParams;
 import com.droidcon.uk.physicsui.slides.params.SlideDemoMeaningfulParams;
@@ -39,7 +40,9 @@ public class DroidconUkPresentation implements Presentation {
         mSlides.add(new SlideDemoMeaningfulParams(context, R.layout.slide_demo_params));
         mSlides.add(new SlideImplementation(context, R.layout.slide_impl));
         mSlides.add(new SlideImplementationOptions(context, R.layout.slide_impl_options));
-        mSlides.add(new SlideCrossFadeExample(context, R.layout.slide_cross_fade_ex));
+        mSlides.add(new SlideInteractiveDrag(context, R.layout.slide_interactive_drag));
+        mSlides.add(new SlideIntegration(context, R.layout.slide_integration));
+        // mSlides.add(new SlideCrossFadeExample(context, R.layout.slide_cross_fade_ex));
     }
 
     @Override

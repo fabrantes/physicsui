@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:textStyle="bold|italic"
+        android:textStyle="italic"
         android:gravity="center_horizontal"
         style="@style/Text.SlideHeader2"
         android:text="@string/interpolator"/>
@@ -24,8 +24,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal"
-        android:textStyle="bold|italic"
+        android:textStyle="italic"
         style="@style/Text.SlideHeader2"
-        android:text="@string/continuous"/>
+        android:text="@string/simulator"/>
 
 </LinearLayout>
