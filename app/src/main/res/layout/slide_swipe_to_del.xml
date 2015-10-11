@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/interactive_demo_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:clipChildren="false"
+        android:layout_margin="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="96dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#d63"/>
+
+        <View
+            android:id="@+id/swipeable_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?colorPrimaryDark"/>
+
+    </FrameLayout>
+
+</FrameLayout>

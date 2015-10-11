@@ -1,10 +1,8 @@
 package com.droidcon.uk.physicsui.slides.impl;
 
 import android.content.Context;
-import android.graphics.PointF;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Created by fabrantes on 08/09/2015.
  */
-public class SlideInteractiveDrag extends BaseSlide implements SpringListener {
+public class SlideDemoDragHotCorners extends BaseSlide implements SpringListener {
 
     @Bind(R.id.interactive_demo_container) View mDemoContainer;
     @Bind(R.id.left_top_target) View mLeftTopTarget;
@@ -37,10 +35,9 @@ public class SlideInteractiveDrag extends BaseSlide implements SpringListener {
     @NonNull private final Spring mDraggableTranslationXSpring;
     @NonNull private final Spring mDraggableTranslationYSpring;
 
-    @NonNull
-    List<View> mTargetViews = new ArrayList<>();
+    @NonNull List<View> mTargetViews = new ArrayList<>();
 
-    public SlideInteractiveDrag(@NonNull Context context, @LayoutRes int layoutId) {
+    public SlideDemoDragHotCorners(@NonNull Context context, @LayoutRes int layoutId) {
         super(context, layoutId);
 
         /**
@@ -68,7 +65,28 @@ public class SlideInteractiveDrag extends BaseSlide implements SpringListener {
         mTargetViews.add(mRightBottomTarget);
 
         final int minMagDistance = getContext().getResources().getDimensionPixelOffset(R.dimen.min_mag_distance);
-        mDraggableItem.setOnTouchListener(new MagneticDragTouchListener(minMagDistance));
+        mDraggableItem.setOnTouchListener(
+                MagneticDragTouchFilter.builder()
+                        .setTargetViews(mTargetViews)
+                        .setMinMagneticDistance(minMagDistance)
+                        .build()
+                        .setListener(new MagneticDragTouchFilter.Listener() {
+                            @Override
+                            public void pnBeganDragging() {
+                                mTargetsPopSpring.setEndValue(1f);
+                            }
+
+                            @Override
+                            public void onFinishDragging() {
+                                mTargetsPopSpring.setEndValue(0f);
+                            }
+
+                            @Override
+                            public void onDragTargetUpdate(float x, float y) {
+                                mDraggableTranslationXSpring.setEndValue(x);
+                                mDraggableTranslationYSpring.setEndValue(y);
+                            }
+                        }));
 
         // Initialize springs, fade ins are set to 0 whereas positions are set to some unknown value (since we don't
         // know the initial positions for the Views before they are laid out).
@@ -120,68 +138,6 @@ public class SlideInteractiveDrag extends BaseSlide implements SpringListener {
             mDraggableItem.setTranslationX(value);
         } else if (spring == mDraggableTranslationYSpring) {
             mDraggableItem.setTranslationY(value);
-        }
-    }
-
-    private class MagneticDragTouchListener implements View.OnTouchListener {
-        private final int[] mLocOnScreen = new int[2];
-        private final int mMinMagneticDistance;
-        @NonNull final PointF mLastPoint = new PointF();
-
-        MagneticDragTouchListener(int minMagneticDistance) {
-            mMinMagneticDistance = minMagneticDistance;
-        }
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN: {
-                    mTargetsPopSpring.setEndValue(1f);
-                    mLastPoint.set(event.getRawX(), event.getRawY());
-                    break;
-                }
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP: {
-                    mTargetsPopSpring.setEndValue(0f);
-                    // dont break let it run the code in 'default'
-                }
-                default: {
-                    final float targetX, targetY;
-                    final View targetView = getTargetView(event);
-                    if (targetView == mDraggableItem) {
-                        // convert full-screen, centered coords (from getRaw*) to local coords
-                        final float tLeft = event.getRawX() - mDemoContainer.getLeft() - mDraggableItem.getWidth() / 2;
-                        final float tTop = event.getRawY() - mDemoContainer.getTop() - mDraggableItem.getHeight() / 2;
-                        targetX = tLeft - mDraggableItem.getLeft();
-                        targetY = tTop - mDraggableItem.getTop();
-                    } else {
-                        targetX = targetView.getLeft() - mDraggableItem.getLeft();
-                        targetY = targetView.getTop() - mDraggableItem.getTop();
-                    }
-                    mDraggableTranslationXSpring.setEndValue(targetX);
-                    mDraggableTranslationYSpring.setEndValue(targetY);
-                    break;
-                }
-            }
-            return true;
-        }
-
-        @NonNull
-        private View getTargetView(@NonNull MotionEvent event) {
-            int minDistance = Integer.MAX_VALUE;
-            View view = mDraggableItem;
-            for (final View targetView : mTargetViews) {
-                targetView.getLocationOnScreen(mLocOnScreen);
-                final float targetCenterX = mLocOnScreen[0] + targetView.getWidth() / 2;
-                final float targetCenterY = mLocOnScreen[1] + targetView.getHeight() / 2;
-                final float distance = Math.abs(event.getRawX() - targetCenterX) +
-                        Math.abs(event.getRawY() - targetCenterY);
-                if (distance < minDistance && distance < mMinMagneticDistance) {
-                    minDistance = (int) distance;
-                    view = targetView;
-                }
-            }
-            return view;
         }
     }
 }
