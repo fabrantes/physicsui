@@ -50,7 +50,9 @@ public class SlideDemoMeaningfulParams extends SlideDemoParams {
     @Override
     public float value1ToStiffness(float value, float mass, float value2) {
         final float dampingFactor = 1 - value2;
-        return value * value / (1 - dampingFactor * dampingFactor) * mass;
+        return dampingFactor < 1 ?
+                value * value / (1 - dampingFactor * dampingFactor) * mass :
+                value * value;
     }
 
     @Override
@@ -60,21 +62,26 @@ public class SlideDemoMeaningfulParams extends SlideDemoParams {
 
     @Override
     public int valueToProgress2(float value) {
-        final float min = .01f;
+        final float min = -.4f;
         final float max = 1f;
         return (int) (1000 * (max - value - min) / (max - min));
     }
 
     @Override
     public float progressToValue2(float progress) {
-        final float min = .01f;
+        final float min = -.4f;
         final float max = 1f;
         return min + progress * (max - min) / 1000;
     }
 
     @Override
     public float value2ToDamping(float value, float mass, float value1) {
-        final float stiffness = value1ToStiffness(value1, mass, value);
-        return (float) (2 * (1 - value) * Math.sqrt(mass * stiffness));
+        final float dampingFactor = 1 - value;
+        if (dampingFactor < 1) {
+            final float stiffness = value1ToStiffness(value1, mass, value);
+            return (float) (2 * (1 - value) * Math.sqrt(mass * stiffness));
+        } else {
+            return (1 - value) * (2 * value1 /* * m */);
+        }
     }
 }
