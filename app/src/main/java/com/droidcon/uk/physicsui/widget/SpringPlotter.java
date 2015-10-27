@@ -168,10 +168,11 @@ public class SpringPlotter extends View implements SpringListener {
 
         mPath.reset();
         mPath.moveTo(previousX, previousY);
-        mPath.cubicTo(
-                previousX + (currentX - previousX) * .1f, (float) (previousY - previousVelocity * dt * .1f),
-                currentX - (currentX - previousX) * .1f, (float) (currentY + velocity * dt * .1f),
-                currentX, currentY);
+        mPath.lineTo(currentX, currentY);
+//        mPath.cubicTo(
+//                previousX + (currentX - previousX) * .1f, (float) (previousY - previousVelocity * dt * .1f),
+//                currentX - (currentX - previousX) * .1f, (float) (currentY + velocity * dt * .1f),
+//                currentX, currentY);
         mGraphBitmapCanvas.drawPath(mPath, mGraphLinePaint);
     }
 
