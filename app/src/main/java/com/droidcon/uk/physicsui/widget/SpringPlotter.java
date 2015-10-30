@@ -116,7 +116,7 @@ public class SpringPlotter extends View implements SpringListener {
     private Bitmap makeFadedCopyOf(@NonNull Bitmap origBitmap) {
         final Canvas canvas = new Canvas(origBitmap);
         final Paint paint = new Paint();
-        paint.setAlpha(0x20);
+        paint.setAlpha(0x30);
         final Bitmap fadedCopyBitmap = Bitmap.createBitmap(
                 origBitmap.getWidth(), origBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         canvas.setBitmap(fadedCopyBitmap);
@@ -168,11 +168,11 @@ public class SpringPlotter extends View implements SpringListener {
 
         mPath.reset();
         mPath.moveTo(previousX, previousY);
-        mPath.lineTo(currentX, currentY);
-//        mPath.cubicTo(
-//                previousX + (currentX - previousX) * .1f, (float) (previousY - previousVelocity * dt * .1f),
-//                currentX - (currentX - previousX) * .1f, (float) (currentY + velocity * dt * .1f),
-//                currentX, currentY);
+//        mPath.lineTo(currentX, currentY);
+        mPath.cubicTo(
+                previousX + (currentX - previousX) * .1f, (float) (previousY - previousVelocity * dt * .1f),
+                currentX - (currentX - previousX) * .1f, (float) (currentY + velocity * dt * .1f),
+                currentX, currentY);
         mGraphBitmapCanvas.drawPath(mPath, mGraphLinePaint);
     }
 

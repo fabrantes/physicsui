@@ -62,6 +62,7 @@ public class SlideDemoSwipeToDelete extends BaseSlide implements SpringListener 
                                     // mSwipeTranslationXSpring.setEndValue(view.getWidth());
                                     mSwipeTranslationXSpring.removeAllListeners();
                                     mSwipeableItem.animate()
+                                            .setDuration(666)
                                             .translationX(view.getWidth())
                                             .start();
                                 } else {
